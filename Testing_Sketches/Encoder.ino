@@ -1,0 +1,126 @@
+#include <SimpleSDAudio.h>
+
+int Y0 = 6; // OUTPUTS FROM DEMULTIPLEXER
+int Y1 = 5; // THERE ARE 43 SOUND FILES THAT CAN BE ACCESSED WITH THE IC CHIP(Only 6 pins needed = 101011), PT FILES ARE ACCESSED THROUGH NES Controller 
+int Y2 = 7; 
+int Y3 = 3;
+int Y4 = 2; 
+int Y7 = 8; // @Then NES controller function & PT headphone function (Headphone Male end's GND also goes to arduino analog pin to show headphones are plugged in by having the headphones GND go to an arduino analog pin)
+            // @Then Casing can be done during weekend 
+
+int v0 = 0; // DIGITALREAD VALUES
+int v1 = 0;
+int v2 = 0;
+int v3 = 0;
+int v4 = 0;
+int v7 = 0;
+int V = 0;
+
+int Enter = 10; // SAVING BINARY CODE INTO ARRAY BUTTON
+
+int Demulti[8]; // Declaration for 8 placeholders 0-6
+boolean b = false;
+int x = 0;
+
+void setup() {
+  pinMode(Y0, INPUT);
+  pinMode(Y1, INPUT);
+  pinMode(Y2, INPUT);
+  pinMode(Y3, INPUT);
+  pinMode(Y4, INPUT);
+  pinMode(Y7, INPUT);
+  pinMode(Enter, INPUT_PULLUP);
+//////////////////////////////////////////////////////////////////////////////////
+SdPlay.setSDCSPin(4); // sd card cs pin
+
+if (!SdPlay.init(SSDA_MODE_FULLRATE | SSDA_MODE_MONO | SSDA_MODE_AUTOWORKER))
+
+{ while(1); }
+//////////////////////////////////////////////////////////////////////////////////
+  Serial.begin(9600); // Serial Reminders can be replaced with analog LEDs
+}
+
+void loop() {
+  
+  
+  v0 = digitalRead(Y0); // DEMULTIPLEXED CODE
+  v1 = digitalRead(Y1);
+  v2 = digitalRead(Y2);
+  v3 = digitalRead(Y3);
+  v4 = digitalRead(Y4);
+  v7 = digitalRead(Y7); // ALL CHIP DIGITAL READS WORK ACCORDING TO THE DATASHEETS!!!!!!! 
+  V = digitalRead(Enter);
+
+ 
+  static String bin;
+  
+  if(V == LOW){
+    Serial.println("Y0"); // To notify the user to program Y0 
+    delay(2000); // Gives them 2 seconds to do it 
+    Demulti[0] = v0; // Changes Y0 according to user's programming
+    x = x + 1; // Starts the timer for the rest to be programmed 
+  }
+  if(x == 1){
+    Serial.println("Y1");
+    delay(2000);
+    Demulti[1] = v1;
+    x = x + 1;
+  }
+  if(x == 2){
+    Serial.println("Y2");
+    delay(2000);
+    Demulti[2] = v2;
+    x = x + 1;
+  }
+  if(x == 3){
+    Serial.println("Y3");
+    delay(2000);
+    Demulti[3] = v3;
+    x = x + 1;
+  }
+  if(x == 4){
+    Serial.println("Y4");
+    delay(2000);
+    Demulti[4] = v4;
+    x = x + 1;
+  }
+  if(x == 5){
+    Serial.println("Y7"); 
+    delay(2000);
+    Demulti[5] = v7;
+    bin = String(String(Demulti[0]) + String(Demulti[1])+ String(Demulti[2]) + String(Demulti[3]) + String(Demulti[4]) + String(Demulti[5]));
+    Serial.println(bin);
+    Serial.println("Code Scanned/Uploaded");
+    x = 0;
+    }
+////////////////////////////////////////////////////////////////////////
+    /*if(bin == "111110"){ // THE CODE IS ONLY UPLOADED TO BIN ONCE IT DOESNT STAY THERE SO HERES THE MECHANISM TO KEEP THE CONDITIONAL FOR THE MUSIC TO PLAY TRUE
+      if(!SdPlay.setFile("Adebisi.wav")) // music name file
+      { while(1); }
+      SdPlay.play(); // Play File
+      while(!SdPlay.isStopped() && b == true) // Plays till over and when its not playing the program button can be enabled
+      { ; }
+    }
+
+    if(bin == "111111"){ // THE CODE IS ONLY UPLOADED TO BIN ONCE IT DOESNT STAY THERE SO HERES THE MECHANISM TO KEEP THE CONDITIONAL FOR THE MUSIC TO PLAY TRUE
+      if(!SdPlay.setFile("Wolf.wav")) // music name file
+      { while(1); }
+      SdPlay.play(); // Play File
+      while(!SdPlay.isStopped() && b == true) // Plays till over and when its not playing the program button can be enabled
+      { ; }
+    }*/
+    
+    
+//////////////////////////////////////////////////////////////////////// 
+    
+     
+    
+  
+ 
+  
+  
+  
+  
+  
+
+}

@@ -1,0 +1,129 @@
+int Y0 = 6; // OUTPUTS FROM DEMULTIPLEXER
+int Y1 = 5; // THERE ARE 43 SOUND FILES THAT CAN BE ACCESSED WITH THE IC CHIP(6 pins needed = 101011), PT FILES ARE ACCESSED THROUGH NES Controller 
+int Y2 = 7; 
+int Y3 = 3;
+int Y4 = 2; 
+int Y5 = 1; 
+int Y6 = 0; 
+int Y7 = 8; // @Then NES controller function & PT headphone function (Headphone Male end's GND also goes to arduino analog pin to show headphones are plugged in by having the headphones GND go to an arduino analog pin)
+            // @Then Casing can be done during weekend 
+
+int v0 = 0; // DIGITALREAD VALUES
+int v1 = 0;
+int v2 = 0;
+int v3 = 0;
+int v4 = 0;
+int v5 = 0;
+int v6 = 0;
+int v7 = 0;
+int V = 0;
+
+int Enter = 10; // SAVING BINARY CODE INTO ARRAY BUTTON
+
+int Demulti[7]; // Declaration for 8 placeholders 0-6
+boolean b = true;
+int x = 0;
+
+void setup() {
+  pinMode(Y0, INPUT);
+  pinMode(Y1, INPUT);
+  pinMode(Y2, INPUT);
+  pinMode(Y3, INPUT);
+  pinMode(Y4, INPUT);
+  pinMode(Y5, INPUT);
+  pinMode(Y6, INPUT);
+  pinMode(Y7, INPUT);
+  pinMode(Enter, INPUT_PULLUP);
+  
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  
+  
+  v0 = digitalRead(Y0); // DEMULTIPLEXED CODE
+  v1 = digitalRead(Y1);
+  v2 = digitalRead(Y2);
+  v3 = digitalRead(Y3);
+  v4 = digitalRead(Y4);
+  v5 = digitalRead(Y5);
+  v6 = digitalRead(Y6);
+  v7 = digitalRead(Y7);
+  V = digitalRead(Enter);
+  Serial.println(v6);
+  if(b){
+    Demulti[0] = 0; // Default Array Placeholders
+    Demulti[1] = 0;
+    Demulti[2] = 0;
+    Demulti[3] = 0;
+    Demulti[4] = 0;
+    Demulti[5] = 0;
+    Demulti[6] = 0;
+  }
+  
+  /*if(V == LOW){
+    b = false;
+    Serial.println("Y0");
+    delay(2000);
+    Demulti[0] = v0; 
+    x = x + 1;
+  }
+  if(x == 1){
+    Serial.println("Y1");
+    delay(2000);
+    Demulti[1] = v1;
+    x = x + 1;
+  }
+  if(x == 2){
+    Serial.println("Y2");
+    delay(2000);
+    Demulti[2] = v2;
+    x = x + 1;
+  }
+  if(x == 3){
+    Serial.println("Y3");
+    delay(2000);
+    Demulti[3] = v3;
+    x = x + 1;
+  }
+  if(x == 4){
+    Serial.println("Y4");
+    delay(2000);
+    Demulti[4] = v4;
+    x = x + 1;
+  }
+  if(x == 5){
+    Serial.println("Y5");
+    delay(2000);
+    Demulti[5] = v5;
+    x = x + 1;
+  }
+  if(x == 6){
+    Serial.println("Y6");
+    delay(2000);
+    Demulti[6] = v6;
+    x = 0;
+    if(Demulti[6] == 1){ // Try making the Demulti placeholders strings and then scanning them as strings for the music files with ifs or switch case
+      Serial.println(Demulti[0]);
+    }
+    b = true;
+    Serial.println("Reset");*/
+  //}
+
+  // THERE ARE ONLY 8 POSSIBLE OUTPUTS WITH THE DEMULTIPLEXER 
+  // BUT THE ARRAY HAS 8 PLACE HOLDERS 
+  // SO IF YOU HAVE 8 OUTPUTS THAT CAN BE 1 OR 0 AND CHANGE THEM WITHIN THE ARRAY TO MAKE AN 8 BIT NUMBER 
+  // THEN YOU HAVE LIKE 64 DIFFERENT BINARY WORDS YOU COULD MAKE 
+  
+  // NEXT PLAY IS TO MAKE ALL DEFAULT ARRAY PLACE HOLDERS 0
+  // THEN 1 AT A TIME CHANGE THE PLACE HOLDERS BY CHANGING THE DEMULTIPLEXER'S OUTPUTS THEN ENTERING THEM 1 AT A TIME WITH THE ENTER BUTTON
+  // THE ONLY PROBLEM MIGHT BE CHANGING 1 PLACE HOLDER WITHOUT AFFECTING THEM ALL
+  
+  
+  
+  
+  
+  
+
+}
